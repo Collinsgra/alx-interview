@@ -20,7 +20,7 @@ If n is impossible to achieve, return 0
             counter += 1
 
         if pasted_chars == 1:
-            # paste
+            # paste chars
             pasted_chars += clipboard
             counter += 1
             continue
@@ -36,7 +36,7 @@ If n is impossible to achieve, return 0
         else:
 
             clipboard = pasted_chars
-            # paste
+            # paste chars
             pasted_chars += clipboard
             counter += 2
     if pasted_chars == n:
