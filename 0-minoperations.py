@@ -1,20 +1,45 @@
 #!/usr/bin/python3
-""" Prototype: def minOperations(n)
+"""Prototype: def minOperations(n)
 Returns an integer
 If n is impossible to achieve, return 0"""
 
 
 def minOperations(n):
-    if n <= 1:
+    '''Prototype: def minOperations(n)
+Returns an integer
+If n is impossible to achieve, return 0
+    '''
+    pasted_chars = 1
+    clipboard = 0
+    counter = 0
+
+    while pasted_chars < n:
+        if clipboard == 0:
+
+            clipboard = pasted_chars
+            counter += 1
+
+        if pasted_chars == 1:
+            # paste
+            pasted_chars += clipboard
+            counter += 1
+            continue
+
+        remaining = n - pasted_chars
+
+        if remaining < clipboard:
+            return 0
+
+        if remaining % pasted_chars != 0:
+            pasted_chars += clipboard
+            counter += 1
+        else:
+
+            clipboard = pasted_chars
+            # paste
+            pasted_chars += clipboard
+            counter += 2
+    if pasted_chars == n:
+        return counter
+    else:
         return 0
-    
-    operations = 0
-    factor = 2
-    
-    while n > 1:
-        while n % factor == 0:
-            operations += factor
-            n //= factor
-        factor += 1
-    
-    return operations
