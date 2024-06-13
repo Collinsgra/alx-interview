@@ -1,17 +1,28 @@
+#!/usr/bin/python3
+""" pascals traingle """
+
+
 def pascal_triangle(n):
+    """ function that returns traingle """
     if n <= 0:
         return []
-    
     triangle = []
     for i in range(n):
-        # Initialize the row with None, then fill it with 1s at the ends
-        row = [None for _ in range(i + 1)]
-        row[0], row[-1] = 1, 1
-        
-        # Each triangle element is the sum of the two elements above it
-        for j in range(1, len(row) - 1):
-            row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]
-        
-        triangle.append(row)
-    
+        if i == 0:
+            triangle.append([1])
+        elif i == 1:
+            triangle.append([1, 1])
+        elif i == 2:
+            triangle.append([1, 2, 1])
+        elif i > 2:
+            triangle.append([])
+            for k in range(len(triangle[i - 1])):
+                if triangle[i - 1][k] == 1:
+                    triangle[i].append(1)
+                if len(triangle[i - 1]) > k + 1:
+                    if type(triangle[i - 1][k + 1]) is int:
+                        val = triangle[i - 1][k] + triangle[i - 1][k + 1]
+                        triangle[i].append(val)
+                    else:
+                        continue
     return triangle
