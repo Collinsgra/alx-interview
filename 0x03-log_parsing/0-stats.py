@@ -1,48 +1,45 @@
 #!/usr/bin/python3
-"""
-script that reads stdin line by line and computes metrics
-"""
+
+""" script that reads stdin line by line and computes metrics """
+
 import sys
-import signal
 
-total_size = 0
-status_counts = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-line_count = 0
 
-def print_stats():
-    print(f"File size: {total_size}")
-    for status_code in sorted(status_counts):
-        if status_counts[status_code] > 0:
-            print(f"{status_code}: {status_counts[status_code]}")
+def printStatus(dic, size):
+    """ Prints status """
+    print("File size: {:d}".format(size))
+    for i in sorted(dic.keys()):
+        if dic[i] != 0:
+            print("{}: {:d}".format(i, dic[i]))
 
-def signal_handler(sig, frame):
-    print_stats()
-    sys.exit(0)
 
-signal.signal(signal.SIGINT, signal_handler)
+statusCodes = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+               "404": 0, "405": 0, "500": 0}
+
+count = 0
+size = 0
 
 try:
     for line in sys.stdin:
-        parts = line.split()
-        if len(parts) != 10:
-            continue
+        if count != 0 and count % 10 == 0:
+            printStatus(statusCodes, size)
 
-        ip, dash, date, get, path, http, status, size = parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[9]
+        stlist = line.split()
+        count += 1
 
         try:
-            status = int(status)
-            size = int(size)
-        except ValueError:
-            continue
+            size += int(stlist[-1])
+        except Exception:
+            pass
 
-        total_size += size
-        if status in status_counts:
-            status_counts[status] += 1
+        try:
+            if stlist[-2] in statusCodes:
+                statusCodes[stlist[-2]] += 1
+        except Exception:
+            pass
+    printStatus(statusCodes, size)
 
-        line_count += 1
-        if line_count % 10 == 0:
-            print_stats()
 
 except KeyboardInterrupt:
-    print_stats()
-    sys.exit(0)
+    printStatus(statusCodes, size)
+    raise
