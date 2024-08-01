@@ -1,28 +1,27 @@
 #!/usr/bin/python3
-"""
-Island Perimeter
-"""
+""" iSLAND PERIMETER"""
+
 
 def island_perimeter(grid):
-    perimeter = 0
-    rows = len(grid)
-    cols = len(grid[0]) if rows > 0 else 0
+    """ i- perimeter func """
+    if not grid or not grid[0]:
+        return 0
 
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == 1:
-                # Check the four possible sides
-                # Up
-                if r == 0 or grid[r-1][c] == 0:
-                    perimeter += 1
-                # Down
-                if r == rows - 1 or grid[r+1][c] == 0:
-                    perimeter += 1
-                # Left
-                if c == 0 or grid[r][c-1] == 0:
-                    perimeter += 1
-                # Right
-                if c == cols - 1 or grid[r][c+1] == 0:
-                    perimeter += 1
+    perimeter = 0
+    rows, cols = len(grid), len(grid[0])
+
+    for i in range(rows):
+        for p in range(cols):
+            if grid[i][p] == 1:
+                perimeter += 4
+
+                if i > 0 and grid[i - 1][p] == 1:
+                    perimeter -= 1
+                if i < rows - 1 and grid[i + 1][p] == 1:
+                    perimeter -= 1
+                if p > 0 and grid[i][p - 1] == 1:
+                    perimeter -= 1
+                if p < cols - 1 and grid[i][p + 1] == 1:
+                    perimeter -= 1
 
     return perimeter
