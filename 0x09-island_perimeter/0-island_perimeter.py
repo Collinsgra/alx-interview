@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" iSLAND PERIMETER"""
+""" ISLAND PERIMETER"""
 
 
 def island_perimeter(grid):
-    """ i- perimeter func """
+    """ i- perimeter() """
     if not grid or not grid[0]:
         return 0
 
